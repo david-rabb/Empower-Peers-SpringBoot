@@ -7,7 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 /**
- * Basic Web Security Config
+ * Basic Web Security Config to specify which URIs are protected and which are not.
+ * Temporarily using basic authentication until a login page is built
  * @author Dave
  */
 @Configuration
@@ -21,9 +22,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/faq", "/").permitAll()
         .anyRequest().authenticated()
         .and()
-      .formLogin()
-        .loginPage("/login")
-        .permitAll()
+      //.formLogin()
+      //  .loginPage("/login")
+      //  .permitAll()
     ;
   }
 }

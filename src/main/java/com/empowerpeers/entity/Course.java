@@ -14,7 +14,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- *
+ * A course entity mapping to a course as organized at a school. A course will have an instructor,
+ * students, assignments and other metadata details to describe it.
  * @author Dave
  */
 @Entity

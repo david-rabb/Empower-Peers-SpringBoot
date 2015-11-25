@@ -1,7 +1,8 @@
 package com.empowerpeers;
 
 /**
- *
+ * Bootstrap the Application
+ * Optional init scripts in CommandLineRunner
  * @author Dave
  */
 import com.empowerpeers.entity.*;

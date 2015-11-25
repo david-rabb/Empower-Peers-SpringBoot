@@ -13,7 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 /**
- *
+ * Configuration for how users are authenticated.
+ * In this case, by user's email address and BCrypt encrypted password
  * @author Dave
  */
 @Configuration
@@ -24,7 +25,7 @@ public class AuthenticationConfiguration extends GlobalAuthenticationConfigurerA
 
   @Override
   public void init(AuthenticationManagerBuilder auth) throws Exception {
-    System.out.println("AuthenticationConfiguration.init");
+    //System.out.println("AuthenticationConfiguration.init");
     auth.userDetailsService(userDetailsService())
         .passwordEncoder(passwordEncoder());
   }
@@ -41,7 +42,7 @@ public class AuthenticationConfiguration extends GlobalAuthenticationConfigurerA
       @Override
       public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
-        System.out.println("loadUserByUsername"+user);
+        //System.out.println("loadUserByUsername"+user);
         if(user != null) {
           return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), true, true, true, true,
             AuthorityUtils.createAuthorityList("USER"));
