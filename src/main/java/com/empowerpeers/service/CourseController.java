@@ -25,7 +25,7 @@ public class CourseController {
     }
   
     @RequestMapping(method=RequestMethod.GET, value="/{id}")
-    public Course get(@PathVariable long id){
+    public Course get(@PathVariable int id){
         return courseRepository.findOne(id);
     }
   
