@@ -2,6 +2,7 @@ package com.empowerpeers.service;
 
 import com.empowerpeers.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -9,10 +10,16 @@ import org.springframework.web.bind.annotation.*;
  * @author Dave
  */
 @RestController
-@RequestMapping("/courses")
+@RequestMapping("/api/courses")
 public class CourseController {
 
     private CourseRepository courseRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
  
     @Autowired
     public void setCourseRepository(CourseRepository courseRepository) {
@@ -20,8 +27,10 @@ public class CourseController {
     }
     
     @RequestMapping(method=RequestMethod.GET, value="/")
-    public Iterable<Course> list() {
-        return courseRepository.findAll();
+    public Iterable<Course> list(Authentication auth) {
+        //return courseRepository.findAll();
+        User user = userRepository.findByEmail(auth.getName());
+        return courseRepository.listForStudent(user.getId());
     }
   
     @RequestMapping(method=RequestMethod.GET, value="/{id}")
