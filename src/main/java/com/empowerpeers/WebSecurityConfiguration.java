@@ -6,6 +6,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 /**
  * Basic Web Security Config to specify which URIs are protected and which are not.
  * Temporarily using basic authentication until a login page is built
@@ -17,14 +19,22 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.httpBasic().and()
+    http
       .authorizeRequests()
-        .antMatchers("/faq", "/").permitAll()
-        .anyRequest().authenticated()
+        .antMatchers("/api/**").hasAuthority("USER")
         .and()
-      //.formLogin()
-      //  .loginPage("/login")
-      //  .permitAll()
+      .formLogin()
     ;
   }
+/*
+  @Configuration
+  public static class DirectoryConfig extends WebMvcConfigurerAdapter {
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+      System.out.println("DirectoryConfig.addViewControllers");
+      registry.addViewController("/").setViewName("forward:/index.html");
+    }
+  }
+*/
 }
+

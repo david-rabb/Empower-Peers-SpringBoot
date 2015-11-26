@@ -1,8 +1,10 @@
 package com.empowerpeers.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +17,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * A user account
@@ -62,6 +68,7 @@ public class User implements Serializable {
   @NotNull
   @Column(name = "notification_feedback")
   private boolean notificationFeedback;
+  
 
   public User() {
   }
@@ -179,5 +186,50 @@ public class User implements Serializable {
   public String toString() {
     return "com.empowerpeers.entity.User[ id=" + id + " ]";
   }
+  
+  public UserDetailsImpl getAuthentication() {
+    return new UserDetailsImpl(this);
+  }
+  
+  /* Additional UserDetails implementation so we can access user properties but not store 
+   * User Entity on session 
+   */
+  class UserDetailsImpl implements UserDetails {
+    
+    private String username;
+    private String password;
+    
+    UserDetailsImpl(User user) {
+      this.username = user.getEmail();
+      this.password = user.getPassword();
+    }
+    
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+      return AuthorityUtils.createAuthorityList("USER");
+    }
+    
+    public String getUsername() {
+      return username;
+    }
 
+    public String getPassword() {
+      return password;
+    }
+    public boolean isAccountNonExpired() {
+      return true;
+    }
+
+    public boolean isAccountNonLocked() {
+      return true;
+    }
+
+    public boolean isCredentialsNonExpired() {
+      return true;
+    }
+
+    public boolean isEnabled() {
+      return true;
+    }
+
+  }  
 }

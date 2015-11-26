@@ -44,8 +44,7 @@ public class AuthenticationConfiguration extends GlobalAuthenticationConfigurerA
         User user = userRepository.findByEmail(email);
         //System.out.println("loadUserByUsername"+user);
         if(user != null) {
-          return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), true, true, true, true,
-            AuthorityUtils.createAuthorityList("USER"));
+          return user.getAuthentication();
         } else {
           throw new UsernameNotFoundException("could not find the user '" + email + "'");
         }
