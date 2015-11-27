@@ -10,3 +10,4 @@ Port of EmpowerPeers.org to Spring Boot (Java), including:
 * Spring JPA with Hibernate & MySQL
 * Spring REST with Jackson
 * Embedded Tomcat 8
+* AngularJS 1.4
