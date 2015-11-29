@@ -1,4 +1,4 @@
-/* 
+/* AngularJS module and controllers
  */
 
 var empowerPeersApp = angular.module('empowerPeers', []);
